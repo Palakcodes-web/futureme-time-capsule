@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureMe — Letters Through Time</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --bg:#080713;
+  --panel:rgba(22,17,43,.78);
+  --purple:#b69aff;
+  --pink:#f1b5ff;
+  --muted:#aaa4c4;
+  --line:rgba(187,155,255,.2);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:#faf7ff;
+  font-family:'DM Sans',sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 5%,#38225d 0%,transparent 48%),
+    radial-gradient(ellipse at 5% 65%,#20164b 0%,transparent 38%),
+    radial-gradient(ellipse at 95% 85%,#351c4b 0%,transparent 35%),
+    var(--bg);
+  overflow-x:hidden;
+}
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(2px 2px at 12% 25%,white 50%,transparent 100%),
+    radial-gradient(1px 1px at 78% 17%,white 50%,transparent 100%),
+    radial-gradient(2px 2px at 86% 65%,#d8c5ff 50%,transparent 100%),
+    radial-gradient(1px 1px at 24% 76%,white 50%,transparent 100%),
+    radial-gradient(1px 1px at 60% 44%,white 50%,transparent 100%),
+    radial-gradient(2px 2px at 42% 12%,#d8c5ff 50%,transparent 100%);
+}
+header {
+  position:relative;
+  z-index:1;
+  max-width:1150px;
+  margin:auto;
+  padding:25px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.logo {
+  font-weight:700;
+  letter-spacing:-.7px;
+  font-size:22px;
+}
+.logo span { color:var(--pink); }
+nav { display:flex;gap:25px;align-items:center; }
+nav a {
+  color:#c5bddf;
+  text-decoration:none;
+  font-size:13px;
+  transition:color .2s;
+}
+nav a:hover { color:white; }
+
+main {
+  position:relative;
+  z-index:1;
+  max-width:1100px;
+  margin:auto;
+  padding:65px 25px 90px;
+}
+.hero {
+  text-align:center;
+  max-width:760px;
+  margin:0 auto 55px;
+}
+.eyebrow {
+  color:var(--pink);
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:700;
+}
+h1 {
+  font:600 clamp(43px,7vw,76px)/1.12 'Playfair Display',serif;
+  letter-spacing:-1.8px;
+  margin:20px 0;
+}
+h1 em {
+  color:#c7aaff;
+  font-weight:500;
+  text-shadow:0 0 35px #b18cff45;
+}
+.subtitle {
+  color:#b7b0d1;
+  line-height:1.9;
+  max-width:520px;
+  margin:0 auto;
+  font-size:15px;
+}
+.orbit {
+  height:155px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  margin:10px auto 22px;
+}
+.ring {
+  width:136px;
+  height:136px;
+  border:1px solid #b69aff55;
+  border-radius:50%;
+  position:absolute;
+  box-shadow:0 0 45px #a78bfa12,inset 0 0 35px #a78bfa0b;
+  animation:spin 22s linear infinite;
+}
+.ring:before {
+  content:"✦";
+  position:absolute;
+  top:12px;
+  left:17px;
+  color:var(--pink);
+}
+.ring.two {
+  width:102px;
+  height:102px;
+  animation-direction:reverse;
+  border-color:#e0baff55;
+}
+.envelope {
+  font-size:64px;
+  filter:drop-shadow(0 0 28px #b48cffaa);
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float {
+  50% { transform:translateY(-10px) rotate(-3deg); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.layout {
+  display:grid;
+  grid-template-columns:1fr .9fr;
+  gap:24px;
+  align-items:start;
+}
+.panel {
+  background:linear-gradient(145deg,rgba(35,27,62,.88),rgba(15,13,34,.91));
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 24px 75px #0003,0 0 35px #9d78ff08;
+  backdrop-filter:blur(18px);
+  transition:border-color .25s,transform .25s;
+}
+.panel:hover { border-color:rgba(196,168,255,.38); }
+.panel h2 {
+  font:600 25px 'Playfair Display',serif;
+  margin:0 0 9px;
+}
+.desc {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  margin:0 0 23px;
+}
+label {
+  display:block;
+  font-size:11px;
+  letter-spacing:.6px;
+  font-weight:600;
+  color:#ded6f5;
+  margin:17px 0 9px;
+}
+input,textarea,select {
+  width:100%;
+  border:1px solid #40365d;
+  border-radius:12px;
+  background:rgba(10,8,25,.8);
+  color:#fff;
+  padding:13px 14px;
+  font:13px 'DM Sans',sans-serif;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+input:focus,textarea:focus,select:focus {
+  border-color:var(--purple);
+  box-shadow:0 0 0 3px #a78bfa1e;
+}
+input::placeholder,textarea::placeholder { color:#79728f; }
+input[type="date"] { color-scheme:dark; }
+textarea { resize:vertical;min-height:135px;line-height:1.8; }
+.row { display:grid;grid-template-columns:1fr 1fr;gap:13px; }
+
+.btn {
+  border:0;
+  border-radius:12px;
+  padding:13px 17px;
+  font:600 13px 'DM Sans',sans-serif;
+  cursor:pointer;
+  transition:transform .2s,filter .2s,box-shadow .2s;
+}
+.btn:hover { transform:translateY(-2px);filter:brightness(1.1); }
+.btn:focus-visible,nav a:focus-visible {
+  outline:2px solid white;
+  outline-offset:4px;
+}
+.primary {
+  background:linear-gradient(105deg,#b7a0ff,#efb7f7);
+  color:#1b1230;
+  width:100%;
+  margin-top:20px;
+  box-shadow:0 8px 28px #b08cff20;
+}
+.primary:hover { box-shadow:0 10px 35px #b08cff45; }
+.secondary {
+  background:#29203f;
+  color:#eee4ff;
+  border:1px solid #51416f;
+}
+.small { padding:9px 12px;font-size:11px; }
+.notice { font-size:10px;color:#938bab;line-height:1.8;margin-top:14px; }
+
+.list-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:0 0 16px;
+}
+.list-head h2 { margin:0; }
+.count { font-size:11px;color:#c7b5ef;white-space:nowrap; }
+.empty {
+  text-align:center;
+  border:1px dashed #51416f;
+  border-radius:17px;
+  padding:34px 16px;
+  color:#b6accf;
+  font-size:12px;
+  line-height:1.9;
+  background:radial-gradient(ellipse at center,#32224b55,transparent 75%);
+}
+.empty span {
+  font-size:32px;
+  display:block;
+  margin-bottom:12px;
+  color:var(--pink);
+}
+.capsule {
+  border:1px solid #51406f;
+  border-radius:17px;
+  padding:18px;
+  margin-top:14px;
+  background:linear-gradient(135deg,rgba(54,38,79,.75),rgba(24,19,46,.85));
+  box-shadow:0 8px 25px #0002;
+  animation:appear .35s ease-out;
+  transition:border-color .2s,transform .2s;
+}
+.capsule:hover {
+  border-color:#a78bfa88;
+  transform:translateY(-2px);
+}
+@keyframes appear {
+  from { opacity:0;transform:translateY(8px); }
+  to { opacity:1;transform:translateY(0); }
+}
+.capsule-top {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+.capsule-title {
+  font:500 18px 'Playfair Display',serif;
+  overflow-wrap:anywhere;
+}
+.tag {
+  font-size:9px;
+  letter-spacing:.5px;
+  color:#ead9ff;
+  background:#50386e;
+  border:1px solid #77569a;
+  padding:6px 9px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.capsule p {
+  font-size:11px;
+  color:#b5abc9;
+  line-height:1.8;
+}
+.capsule-actions { display:flex;gap:9px;flex-wrap:wrap;margin-top:13px; }
+
+footer {
+  text-align:center;
+  padding:24px;
+  color:#827995;
+  font-size:11px;
+  position:relative;
+  z-index:1;
+  border-top:1px solid #ffffff0b;
+}
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:5;
+  background:#070611ed;
+  backdrop-filter:blur(10px);
+  display:none;
+  place-items:center;
+  padding:20px;
+}
+.modal.show { display:grid; }
+.letter {
+  max-width:510px;
+  width:100%;
+  max-height:85vh;
+  overflow:auto;
+  background:linear-gradient(150deg,#2c2047,#121126);
+  border:1px solid #8f71c5;
+  border-radius:24px;
+  padding:32px;
+  box-shadow:0 0 90px #a78bfa25;
+  animation:appear .25s ease-out;
+}
+.letter h2 {
+  font:600 31px 'Playfair Display',serif;
+  color:#e6d4ff;
+}
+.letter-body {
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.95;
+  color:#e6e0f6;
+  font:15px 'Playfair Display',serif;
+}
+.letter small { color:var(--muted);line-height:2; }
+#closeModal { margin-top:24px; }
+
+@media(max-width:700px) {
+  header { padding:20px 5%; }
+  nav { gap:13px; }
+  nav a { font-size:11px; }
+  main { padding:38px 16px 60px; }
+  .layout { grid-template-columns:1fr; }
+  .panel { padding:22px; }
+  .hero { margin-bottom:36px; }
+  h1 { letter-spacing:-1px; }
+}
+@media(max-width:380px) {
+  .row { grid-template-columns:1fr;gap:0; }
+  nav { gap:9px; }
+  nav a { font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation:none!important;
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Future<span>Me</span> ✦</div>
+  <nav><a href="#create">Write a letter</a><a href="#capsules">My capsules</a></nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">✦ A LITTLE NOTE THROUGH TIME ✦</div>
+    <div class="orbit"><div class="ring"></div><div class="ring two"></div><div class="envelope">💌</div></div>
+    <h1>A letter to your <em>future self.</em></h1>
+    <p class="subtitle">Capture who you are today. Leave a little reminder, a dream, or a promise for the person you're becoming.</p>
+  </section>
+
+  <section class="layout">
+    <div class="panel" id="create">
+      <h2>Seal a moment</h2>
+      <p class="desc">Write something your future self deserves to remember.</p>
+      <form id="letterForm">
+        <label for="title">LETTER TITLE</label>
+        <input id="title" maxlength="65" placeholder="e.g. To the girl who kept going" required>
+        <div class="row">
+          <div><label for="author">YOUR NAME</label><input id="author" maxlength="45" placeholder="Your name"></div>
+          <div><label for="openDate">OPEN ON</label><input id="openDate" type="date" required></div>
+        </div>
+        <label for="message">YOUR LETTER</label>
+        <textarea id="message" maxlength="5000" placeholder="Dear future me..." required></textarea>
+        <button class="btn primary" type="submit">✦ Seal my time capsule</button>
+        <p class="notice">Your letters stay in this browser on this device. This is a personal keepsake, not a secure vault.</p>
+      </form>
+    </div>
+
+    <div class="panel" id="capsules">
+      <div class="list-head"><h2>Your universe</h2><span class="count" id="count">0 capsules</span></div>
+      <p class="desc">Every version of you has a story worth keeping.</p>
+      <div id="capsuleList"><div class="empty"><span>✧</span>Your next chapter is waiting.<br>Create your first capsule on the left.</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>Made for the person you're becoming. ✦</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="letter">
+    <div class="eyebrow">✦ A MESSAGE THROUGH TIME ✦</div>
+    <h2 id="modalTitle"></h2>
+    <small id="letterMeta"></small>
+    <hr style="border:0;border-top:1px solid #514069;margin:20px 0">
+    <div class="letter-body" id="letterBody"></div>
+    <button class="btn primary" id="closeModal">Return to my universe</button>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "futureme_capsules_v1";
+let capsules = loadCapsules();
+
+function loadCapsules() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(saved) ? saved.filter(c =>
+      c && typeof c.id === "string" &&
+      typeof c.title === "string" &&
+      typeof c.message === "string" &&
+      typeof c.date === "string" &&
+      !Number.isNaN(Date.parse(c.date))
+    ) : [];
+  } catch { return []; }
+}
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(capsules));
+    return true;
+  } catch {
+    alert("Your browser couldn't save this capsule. Check available storage and browser settings.");
+    return false;
+  }
+}
+function localToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+$("openDate").min = localToday();
+
+function daysUntil(dateString) {
+  const [y,m,d] = dateString.split("-").map(Number);
+  const target = new Date(y,m-1,d);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  return Math.round((target - today) / 86400000);
+}
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[char]);
+}
+function formatDate(date) {
+  return new Date(date + "T12:00:00").toLocaleDateString(undefined,{
+    day:"numeric",month:"short",year:"numeric"
+  });
+}
+function render() {
+  $("count").textContent = `${capsules.length} capsule${capsules.length === 1 ? "" : "s"}`;
+  if (!capsules.length) {
+    $("capsuleList").innerHTML = '<div class="empty"><span>✧</span>Your next chapter is waiting.<br>Create your first capsule on the left.</div>';
+    return;
+  }
+  $("capsuleList").innerHTML = [...capsules]
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .map(c => {
+      const days = daysUntil(c.date);
+      const opened = days <= 0;
+      const countdown = days > 0 ? `${days} day${days === 1 ? "" : "s"} left` : "Ready to open ✨";
+      return `<article class="capsule">
+        <div class="capsule-top">
+          <div class="capsule-title">${escapeHTML(c.title)}</div>
+          <span class="tag">${opened ? "UNSEALED" : "SEALED"}</span>
+        </div>
+        <p>📅 ${formatDate(c.date)} · ${opened ? "Your moment has arrived." : countdown}</p>
+        <div class="capsule-actions">
+          ${opened ? `<button class="btn secondary small" data-open="${escapeHTML(c.id)}">💌 Read letter</button>` : ""}
+          <button class="btn secondary small" data-delete="${escapeHTML(c.id)}">Delete</button>
+        </div>
+      </article>`;
+    }).join("");
+}
+
+$("letterForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const title = $("title").value.trim();
+  const author = $("author").value.trim();
+  const date = $("openDate").value;
+  const message = $("message").value.trim();
+
+  if (!title || !message) {
+    alert("Please add a title and write your letter.");
+    return;
+  }
+  if (!date || date < localToday()) {
+    alert("Choose today or a future date for your capsule.");
+    return;
+  }
+  const capsule = {
+    id: (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`),
+    title, author, date, message,
+    createdAt: new Date().toISOString()
+  };
+  capsules.push(capsule);
+  if (!persist()) {
+    capsules = capsules.filter(c => c.id !== capsule.id);
+    return;
+  }
+  render();
+  event.target.reset();
+  $("openDate").min = localToday();
+  $("capsules").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+$("capsuleList").addEventListener("click", event => {
+  const openButton = event.target.closest("[data-open]");
+  const deleteButton = event.target.closest("[data-delete]");
+  if (openButton) {
+    const capsule = capsules.find(c => c.id === openButton.dataset.open);
+    if (!capsule) return;
+    if (daysUntil(capsule.date) > 0) {
+      alert("This letter is still sealed. Come back on its opening date.");
+      render();
+      return;
+    }
+    $("modalTitle").textContent = capsule.title;
+    $("letterMeta").textContent = `${capsule.author ? "From " + capsule.author + " · " : ""}Written for ${formatDate(capsule.date)}`;
+    $("letterBody").textContent = capsule.message;
+    $("modal").classList.add("show");
+  }
+  if (deleteButton) {
+    const capsule = capsules.find(c => c.id === deleteButton.dataset.delete);
+    if (!capsule) return;
+    if (!confirm(`Delete "${capsule.title}" permanently from this browser?`)) return;
+    const old = capsules;
+    capsules = capsules.filter(c => c.id !== capsule.id);
+    if (!persist()) { capsules = old; return; }
+    render();
+  }
+});
+function closeModal() { $("modal").classList.remove("show"); }
+$("closeModal").addEventListener("click", closeModal);
+$("modal").addEventListener("click", e => {
+  if (e.target === $("modal")) closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+render();
+</script>
+</body>
+</html>
